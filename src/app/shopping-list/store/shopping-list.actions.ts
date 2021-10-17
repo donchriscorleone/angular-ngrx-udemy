@@ -1,10 +1,23 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 import { Ingredient } from '../../shared/ingredient.model';
 
-export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export const AddIngredient = createAction(
+  'ADD_INGREDIENT',
+  props<{readonly payload: Ingredient}>()
+)
 
-export class AddIngredient implements Action {
-  readonly type = ADD_INGREDIENT;
-  payload: Ingredient;
-}
+export const AddIngredients = createAction(
+  'ADD_INGREDIENTS',
+  props<{readonly payload: Ingredient[]}>()
+)
+
+export const UpdateIngredient = createAction(
+  'UPDATE_INGREDIENT',
+  props<{payload: {index: number, ingredient: Ingredient}}>()
+)
+
+export const DeleteIngredient = createAction(
+  'DELETE_INGREDIENT',
+  props<{payload: number}>()
+)

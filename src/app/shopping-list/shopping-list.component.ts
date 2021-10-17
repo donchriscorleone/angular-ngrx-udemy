@@ -13,7 +13,6 @@ import { LoggingService } from '../logging.service';
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
   ingredients: Observable<{ ingredients: Ingredient[] }>;
-  private subscription: Subscription;
 
   constructor(
     private slService: ShoppingListService,
@@ -23,13 +22,6 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.ingredients = this.store.select('shoppingList');
-    // this.ingredients = this.slService.getIngredients();
-    // this.subscription = this.slService.ingredientsChanged.subscribe(
-    //   (ingredients: Ingredient[]) => {
-    //     this.ingredients = ingredients;
-    //   }
-    // );
-
     this.loggingService.printLog('Hello from ShoppingListComponent ngOnInit!');
   }
 
@@ -38,6 +30,5 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.subscription.unsubscribe();
   }
 }
