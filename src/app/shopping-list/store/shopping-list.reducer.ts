@@ -23,16 +23,20 @@ const _shoppingListReducer = createReducer(
   on(ShoppingListActions.AddIngredient, (state, {payload}) => ({...state, ingredients: [...state.ingredients, payload]})),
   on(ShoppingListActions.AddIngredients, (state, {payload}) => ({...state, ingredients: [...state.ingredients, ...payload]})),
   on(ShoppingListActions.UpdateIngredient, (state, payload) => {
-    const ingredient = state.ingredients[payload.index];
+    const ingredient = state.ingredients[state.editedIngredientIndex];
     const updatedIngredient = {
       ...ingredient, ...payload.ingredient
     };
     const updatedIngredients = [...state.ingredients];
-    updatedIngredient[payload.index] = updatedIngredient;
+    updatedIngredient[state.editedIngredientIndex] = updatedIngredient;
 
-    return ({...state, ingredients: updatedIngredients})
+    return ({...state, ingredients: updatedIngredients, editedIngredientIndex: -1, editedIngredient: null})
   }),
-  on(ShoppingListActions.DeleteIngredient, (state, {payload}) => ({...state, ingredients: state.ingredients.filter((ig, ind) => ind !== payload)}))
+  on(ShoppingListActions.DeleteIngredient, (state) => ({...state, ingredients: state.ingredients.filter((ig, ind) => ind !== state.editedIngredientIndex), editedIngredientIndex: -1, editedIngredient: null})),
+  on(ShoppingListActions.StartEdit, (state, {payload}) => {
+    return ({...state, editedIngredientIndex: payload, editedIngredient: {...state.ingredients[payload]}})
+  }),
+  on(ShoppingListActions.StopEdit, (state) => ({...state, editedIngredient: null, editedIngredientIndex: -1}))
 )
 
 export function shoppingListReducer(state: ShoppingState | undefined, action: Action) {
