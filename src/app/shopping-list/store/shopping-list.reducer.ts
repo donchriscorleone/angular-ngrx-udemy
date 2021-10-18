@@ -2,11 +2,7 @@ import { Action, createReducer, on, State } from '@ngrx/store';
 import { Ingredient } from '../../shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions';
 
-export interface AppState {
-  shoppingList: ShoppingState
-}
-
-interface ShoppingState {
+export interface ShoppingState {
   ingredients: Ingredient[];
   editedIngredient: Ingredient
   editedIngredientIndex: number,
