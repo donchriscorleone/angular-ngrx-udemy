@@ -1,5 +1,9 @@
 import { Ingredient } from '../shared/ingredient.model';
 import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
+
+import * as fromShoppingListActions from '../shopping-list/store/shopping-list.actions'
+import * as fromShoppingListReducer from '../shopping-list/store/shopping-list.reducer'
 
 export class ShoppingListService {
   ingredientsChanged = new Subject<Ingredient[]>();
@@ -8,6 +12,8 @@ export class ShoppingListService {
     new Ingredient('Apples', 5),
     new Ingredient('Tomatoes', 10),
   ];
+
+  constructor(private store: Store<fromShoppingListReducer.AppState>) {}
 
   getIngredients() {
     return this.ingredients.slice();
@@ -31,12 +37,10 @@ export class ShoppingListService {
   }
 
   updateIngredient(index: number, newIngredient: Ingredient) {
-    this.ingredients[index] = newIngredient;
-    this.ingredientsChanged.next(this.ingredients.slice());
+    this.store.dispatch(fromShoppingListActions.UpdateIngredient({index: index, ingredient: newIngredient}))
   }
 
   deleteIngredient(index: number) {
-    this.ingredients.splice(index, 1);
-    this.ingredientsChanged.next(this.ingredients.slice());
+    this.store.dispatch(fromShoppingListActions.DeleteIngredient({payload: index}));
   }
 }

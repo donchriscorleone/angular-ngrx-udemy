@@ -14,7 +14,7 @@ export const AddIngredients = createAction(
 
 export const UpdateIngredient = createAction(
   'UPDATE_INGREDIENT',
-  props<{payload: {index: number, ingredient: Ingredient}}>()
+  props<{index: number, ingredient: Ingredient}>()
 )
 
 export const DeleteIngredient = createAction(
